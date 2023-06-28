@@ -1,0 +1,33 @@
+# FAIL: 'sam-local' not work in docker-outside-of-docker
+# error message is:
+#     [+] Building 0.0s (0/0)                                                                                                                                     
+#     [+] Building 0.0s (0/0)                                                                                                                                     
+# 
+#             SAM CLI now collects telemetry to better understand customer needs.
+# 
+#             You can OPT OUT and disable telemetry collection by setting the
+#             environment variable SAM_CLI_TELEMETRY=0 in your shell.
+#             Thanks for your help!
+# 
+#             Learn More: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-telemetry.html
+# 
+#     Starting Build inside a container                                                                                                                           
+#     Building codeuri: /var/opt/main-lambda-function runtime: go1.x metadata: {} architecture: x86_64 functions: MainLambdaFunction                              
+# 
+#     Fetching public.ecr.aws/sam/build-go1.x:latest-x86_64 Docker container image......
+#     Mounting /var/opt/main-lambda-function as /tmp/samcli/source:ro,delegated, inside runtime container                                                         
+# 
+#     Build Failed
+#     Running GoModulesBuilder:Build
+#     Error: GoModulesBuilder:Build - Builder Failed: go: go.mod file not found in current directory or any parent directory; see 'go help modules'
+version: '3.8'
+
+services:
+  samcli:
+    build: ./docker/images/samlocal
+    volumes:
+      - ./mounts:/var/opt
+      - /var/run/docker.sock:/var/run/docker.sock
+    working_dir: /var/opt
+    entrypoint: samlocal
+    command: build --use-container
