@@ -1,4 +1,4 @@
-# FAIL: 'sam-local' not work in docker-outside-of-docker
+# FAIL: 'sam' not work in docker-outside-of-docker
 # error message is:
 #     [+] Building 0.0s (0/0)                                                                                                                                     
 #     [+] Building 0.0s (0/0)                                                                                                                                     
@@ -24,10 +24,10 @@ version: '3.8'
 
 services:
   samcli:
-    build: ./docker/images/samlocal
+    build: ./docker/images/sam
     volumes:
       - ./mounts:/var/opt
       - /var/run/docker.sock:/var/run/docker.sock
     working_dir: /var/opt
-    entrypoint: samlocal
+    entrypoint: sam
     command: build --use-container
